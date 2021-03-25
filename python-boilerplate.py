@@ -145,6 +145,7 @@ def main(argv):
   init(argv)
   # TODO: Do the useful stuff
   
+  global start_time
   # calculate script execution time
   run_time = datetime.now() - start_time
   
