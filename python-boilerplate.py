@@ -122,6 +122,9 @@ def init(argv):
   parser.add_argument('-d', action="store_true", help='Enable debug mode')
   
   args = parser.parse_args(argv)
+  
+  username = args.u
+  input_filename = args.f
 
   print(args)
   logging.info(args)
