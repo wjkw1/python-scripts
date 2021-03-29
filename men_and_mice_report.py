@@ -39,22 +39,9 @@ def log_debug(message):
 ################################################################################
 # enum class for men & mice headers
 class it:
-    ADDRESSES = "addresses"
-    ADDR_ADDRESS = "address"
-    ADDR_CLAIMED = "claimed"
-    ADDR_CUSTOM_PROP = "customProperties"
-    ADDR_COMMENTS = "comments"
-    ADDR_DEVICE = "Device"
-    ADDR_DESC = "Description"
-    ADDR_HOST = "host"
-    ADDR_ID = "id"
-    ADDR_INTERFACE = "Interface"
-    COMMENTS = "comments"
     CUSTOM_PROPS = "customProperties"
     DESCRIPTION = "Description"
-    DEVICE = "device"
     FROM = "from"
-    INTERFACE = "interface"
     IS_SUBNET = "subnet"
     IS_CONTAINER = "isContainer"
     NAME = "name"
@@ -166,7 +153,7 @@ class api:
         r = api.getCall(url)
     except:
       raise
-    logging.info("Finishing getAddressSpaceFromUserInput()")
+    logging.info("Finishing getAddressSpaceFromUserInput("+userInput+")")
     return r
 
   # Get all of the address ranges
@@ -188,7 +175,7 @@ class api:
 
 # Selects an address space from the user input, function used to keep main clean
 def selectAddressSpaceFromUserInput(userInput):
-  logging.info("Starting selectAddressSpaceFromUserInput()")
+  logging.info("Starting selectAddressSpaceFromUserInput("+userInput+")")
   try:
     # Gets the address space ID and Name, assumes an there will always be an existing address space
     currentAddressSpace = api.getCurrentAddressSpace()
@@ -223,7 +210,7 @@ def selectAddressSpaceFromUserInput(userInput):
       log_error("selectAddressSpaceFromUserInput('"+userInput+"')",e)
       quit()
 
-  logging.info("Finishing selectAddressSpaceFromUserInput()")
+  logging.info("Finishing selectAddressSpaceFromUserInput("+userInput+")")
 
 ################################################################################
 
@@ -257,9 +244,9 @@ def init(argv):
   logging.info("***START SCRIPT***")
 
   # Check the command line parameters are good:
-  parser = argparse.ArgumentParser(description='Provide a list of devices in a file with your SBX_USERNAME and we\'ll return build a report')
+  parser = argparse.ArgumentParser(description='Provide a list of devices in a file with your M&M_USERNAME and we\'ll return build a report')
   parser.add_argument('-s', required=True, metavar='HOSTNAME', help='M&M server hostname or IP address')
-  parser.add_argument('-u', required=True, metavar='username', help='CouchDB Username')
+  parser.add_argument('-u', required=True, metavar='USERNAME', help='M&M username')
   parser.add_argument('-a', required=True, metavar="ADDRESS_SPACE", help="Address Space ID or Name")
   parser.add_argument('-d', action="store_true", help='Enable debug mode')
   
