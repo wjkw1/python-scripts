@@ -13,6 +13,7 @@ import argparse
 import getpass
 import json
 import logging
+import os
 import re
 import requests
 import sys
@@ -97,7 +98,10 @@ def init(argv):
   # Set debug to False by default
   global debug
   debug = False
-
+  
+  if not os.path.exists('./logs'):
+    os.makedirs('./logs')
+    
   # Setup the logger
   logging.basicConfig(
     filename='./logs/output.log',
