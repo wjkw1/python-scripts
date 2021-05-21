@@ -28,6 +28,7 @@ def log_error(message, exception=None):
     logging.error('FAILED at [{}] error msg: {}'.format(message, exception))
 
 def log_info(message):
+  print(message)
   logging.info('{}'.format(message))
 
 def log_debug(message):
@@ -116,8 +117,7 @@ def init(argv):
 
   start_time = datetime.now()
   
-  print("***START SCRIPT***")
-  logging.info("***START SCRIPT***")
+  log_info("***START SCRIPT***")
 
   # Check the command line parameters are good:
   parser = argparse.ArgumentParser(description='Provide a list of devices in a file with your SBX_USERNAME and we\'ll return build a report')
@@ -130,15 +130,14 @@ def init(argv):
   username = args.u
   input_filename = args.f
 
-  print(args)
-  logging.info(args)
+  log_info(args)
 
   if args.d:
     logging.getLogger().setLevel(logging.DEBUG)
 
   #TODO: double check that the input file is a csv file
   input_filename = args.f
-  print(input_filename)
+  log_info(input_filename)
 
   password = getpass.getpass(prompt='Password:')
 
@@ -156,9 +155,8 @@ def main(argv):
   # calculate script execution time
   run_time = datetime.now() - start_time
   
-  print("***END SCRIPT***")
-  logging.info("***END SCRIPT***")
-  print("Script execution time:  "+ str(run_time))
+  log_info("***END SCRIPT***")
+  log_info("Script execution time:  "+ str(run_time))
   
 ################################################################################
 
