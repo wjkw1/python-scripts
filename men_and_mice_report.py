@@ -232,7 +232,7 @@ def init(argv):
     filemode='a',
     # encoding='utf-8', # This does not work
     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-    datefmt="%H:%M:%S",
+    datefmt="%Y-%m-%d %H:%M:%S",
     level=logging.INFO
   )
   # Set the logger again as sometimes it keeps debug mode ???
