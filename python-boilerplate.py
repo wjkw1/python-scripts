@@ -18,14 +18,20 @@ import re
 import requests
 import sys
 import time
+import traceback
 from datetime import datetime
 
 # Logging methods to standardise how threaded logs are written to, reminds me how to format strings nicely with methods
-def log_error(message, exception=None):
-  if exception is None:
-    logging.error('FAILED at [{}] with no error message supplied'.format(message))
+def log_error(message, exception=None, trace=None):
+  if exception is None and trace is None:
+    logging.error('FAILED at [{}] with no exception error message recieved'.format(message))
+  elif trace is None:
+    logging.error('FAILED at [{}] error msg: [{}]'.format(message, exception))
+  elif exception is None:
+    logging.error('FAILED at [{}] error trace: {}'.format(message, trace))
   else:
-    logging.error('FAILED at [{}] error msg: {}'.format(message, exception))
+    # Both yes
+    logging.error('FAILED at [{}] error msg: [{}] error trace: {}'.format(message, exception, trace))
 
 def log_info(message):
   print(message)
@@ -41,7 +47,7 @@ class api:
     try:
       myResponse = requests.get(url, auth=(username, password), verify=False)
     except:
-      log_error('Failed get call for url: '+url)
+      log_error('Failed get call for url: '+url, trace=traceback.format_exc())
       raise
       exit()
       
@@ -68,7 +74,7 @@ class api:
       myResponse = requests.post(url, auth=(username, password), data=postData, headers=headers, verify=False)
     except Exception as e:
       message = 'Failed post call for url: '+ str(url)
-      log_error(message,e)
+      log_error(message,exception=e,trace=traceback.format_exc())
       exit()
 
     log_debug('Output from postCall:' + myResponse.text)
