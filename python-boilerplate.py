@@ -113,8 +113,7 @@ def init(argv):
   logging.basicConfig(
     filename='./logs/output.log',
     filemode='a',
-    # encoding='utf-8', # This does not work
-    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+    format='%(asctime)s sev=%(levelname)s file=%(filename)s module=%(name)s func=%(funcName)s %(message)s',
     datefmt="%Y-%m-%d %H:%M:%S",
     level=logging.INFO
   )
