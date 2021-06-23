@@ -2,7 +2,9 @@
 Repo to collate useful example python scripts in one place for future use.
 
 ## [anz-to-mybooster-csv.py](https://github.com/wjkw1/python-scripts/blob/main/anz-to-mybooster-csv.py)
-Provide anz bank statement as input and it will concatenate the fields under new 'Description' label, and delete obsolete fields for [booster money management](https://my.booster.co.nz/Dashboard) app. See website here - https://booster.co.nz
+Provide anz bank statement as input and it will concatenate the fields under new 'Description' label, and delete obsolete fields for [booster money management](https://my.booster.co.nz/Dashboard) app. The new output file will make for better importing of statements into booster
+
+See website here - https://booster.co.nz
 
 **Usage:**
 ```
