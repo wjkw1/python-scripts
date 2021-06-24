@@ -99,10 +99,12 @@ def main(argv):
             df['Description'] = df['Type'].map(str) + " " + df['Details'].map(str) + " " + \
                 df['Particulars'].map(str) + " " + df['Code'].map(str) + \
                 " " + df['Reference'].map(str)
+            columns = ['Date', 'Description', 'Amount']
         else:
             # Set the cc headers we are concat for desc, there are less of them
             df['Description'] = df['Card'].map(
                 str) + " " + df['Details'].map(str)
+            columns = ['TransactionDate', 'Description', 'Amount']
     except KeyError as ke:
         err_str = "Error when creating new Description field, you probably forgot the -cc flag or included it for a non Credit Card file. Check logs for more details..."
         print(err_str)
@@ -110,20 +112,18 @@ def main(argv):
         print("Exiting script with errors.")
         quit()
 
-    print(df['Amount'])
-
     # remove the comma and dollar sign
-    df['Amount'] = df['Amount'].str.replace(',', '')
-    df['Amount'] = df['Amount'].str.replace('$', '')
-
-    print(df['Amount'])
+    df['Amount'] = df['Amount'].astype(str)
+    df['Amount'] = df['Amount'].str.replace(',', '', regex=True)
+    df['Amount'] = df['Amount'].str.replace('$', '', regex=True)
 
     # Set the columns to return back in the CSV file
-    columns = ['Transaction Date', 'Description', 'Amount']
+    logging.debug(df[columns])
 
     global output_filename
-    pd.DataFrame.to_csv(df, path_or_buf=output_filename,
-                        columns=columns, index=False)
+    logging.info(output_filename)
+    df.to_csv(output_filename,
+              columns=columns, index=False)
 
     # Write out runtime and complete final tasks
     end()
