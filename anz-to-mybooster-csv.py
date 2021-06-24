@@ -91,9 +91,7 @@ def main(argv):
         quit()
 
     global is_cc_file
-    columns = []
     try:
-
         if is_cc_file is False:
             # Set the headers we are concat for desc
             df['Description'] = df['Type'].map(str) + " " + df['Details'].map(str) + " " + \
