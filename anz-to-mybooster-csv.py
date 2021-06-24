@@ -47,7 +47,7 @@ def init(argv):
     parser.add_argument('-i', required=True, metavar='--input-file',
                         help="The csv input file bank statement from ANZ")
     parser.add_argument('-f', metavar='--output-filename',
-                        help="filename of the output csv", default='output.csv')
+                        help="filename of the output csv, defaults to input file + output")
     parser.add_argument('-cc', action="store_true",
                         help="Use this flag if it is a Credit Card input file", default=False)
     parser.add_argument('-d', action="store_true", help='Enable debug mode')
@@ -57,7 +57,10 @@ def init(argv):
     # Set the variables from user input
     global input_filename, output_filename, is_cc_file
     input_filename = args.i
-    output_filename = args.f
+    if args.f:
+        output_filename = args.f
+    else:
+        output_filename = "output" + str(input_filename).replace('\\', '')
     is_cc_file = args.cc
     if args.d:
         logging.getLogger().setLevel(logging.DEBUG)
@@ -83,7 +86,7 @@ def main(argv):
         global input_filename
         logging.info(input_filename)
         df = pd.read_csv(input_filename)
-    except Exception as e:
+    except Exception:
         err_str = "Error while reading input csv file, check the logs for more..."
         print(err_str)
         logging.exception(err_str)
@@ -102,8 +105,16 @@ def main(argv):
             # Set the cc headers we are concat for desc, there are less of them
             df['Description'] = df['Card'].map(
                 str) + " " + df['Details'].map(str)
-            columns = ['TransactionDate', 'Description', 'Amount']
-    except KeyError as ke:
+            columns = ['TransactionDate', 'Description', 'NewAmount']
+
+            # we need to add the minus symbol again cause ANZ fluffed it :/
+            df.loc[df['Type'] == 'D', 'NewAmount'] = "-" + \
+                df['Amount'].map(str)
+            df.loc[df['Type'] != 'D', 'NewAmount'] = df['Amount']
+
+            logging.debug(df[columns])
+
+    except KeyError:
         err_str = "Error when creating new Description field, you probably forgot the -cc flag or included it for a non Credit Card file. Check logs for more details..."
         print(err_str)
         logging.exception(err_str)
