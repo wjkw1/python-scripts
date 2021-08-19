@@ -39,7 +39,7 @@ Creating your virtual environment
 cd /path/you/desire
 mkdir /path/you/desire/py_virtual_envs
 cd py_virtual_envs
-pip3 -m venv environment_name
+python3 -m venv environment_name
 ```
 
 Enabling use of your virtual environment
